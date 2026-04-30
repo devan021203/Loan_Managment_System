@@ -1,0 +1,66 @@
+<div class="admin-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>🏦 Admin Panel</h2>
+    <button class="logout" (click)="logout()">Logout</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="cards">
+    <div class="card total">Total: {{ loans.length }}</div>
+    <div class="card pending">Pending: {{ pendingCount }}</div>
+    <div class="card approved">Approved: {{ approvedCount }}</div>
+    <div class="card rejected">Rejected: {{ rejectedCount }}</div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button (click)="filter('All')">All</button>
+    <button (click)="filter('Pending')">Pending</button>
+    <button (click)="filter('Approved')">Approved</button>
+    <button (click)="filter('Rejected')">Rejected</button>
+  </div>
+
+  <!-- TABLE -->
+  <table *ngIf="filteredLoans.length > 0; else noData">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let loan of filteredLoans">
+
+        <td>{{ loan.id }}</td>
+        <td>{{ loan.userId }}</td>
+        <td>₹ {{ loan.amount }}</td>
+
+        <td>
+          <span class="status" [ngClass]="loan.status.toLowerCase()">
+            {{ loan.status }}
+          </span>
+        </td>
+
+        <td>
+          <button class="approve" (click)="approve(loan)">Approve</button>
+          <button class="reject" (click)="reject(loan)">Reject</button>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+  <!-- EMPTY -->
+  <ng-template #noData>
+    <p class="empty">No loan applications found</p>
+  </ng-template>
+
+</div>

@@ -1,0 +1,73 @@
+<div class="dashboard">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>🏦 Loan Dashboard</h1>
+    </div>
+
+    <button class="btn-primary" (click)="goToApplyLoan()">
+      + Apply Loan
+    </button>
+  </div>
+
+  <!-- STATS -->
+  <div class="cards">
+
+    <div class="card">
+      <h3>Total Loans</h3>
+      <p>{{ loans.length }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Pending</h3>
+      <p>{{ pendingCount }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Approved</h3>
+      <p>{{ approvedCount }}</p>
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-container">
+
+    <h2>Loan Applications</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User ID</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (loan of loans; track loan.id) {
+          <tr>
+            <td>{{ loan.id }}</td>
+            <td>{{ loan.userId }}</td>
+            <td>₹ {{ loan.amount }}</td>
+            <td>
+              <span class="badge" [ngClass]="loan.status">
+                {{ loan.status || 'Pending' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-delete" (click)="deleteLoan(loan.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+
+    </table>
+
+  </div>
+</div>

@@ -1,0 +1,40 @@
+.footer {
+  background: #1e3c72;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+  font-family: Arial;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.links {
+  display: flex;
+  gap: 15px;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.links a:hover {
+  color: #00c853;
+}
+
+.copy {
+  font-size: 12px;
+  opacity: 0.8;
+}

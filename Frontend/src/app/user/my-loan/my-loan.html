@@ -1,0 +1,102 @@
+<!-- <div class="container">
+
+  <h2>📄 My Loan Applications</h2>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+     <tbody>
+      <tr *ngFor="let loan of loans">
+
+        <td>{{ loan.id }}</td>
+
+        <td>₹ {{ loan.amount }}</td>
+
+        <td>
+          <span [ngClass]="getStatusClass(loan.status)">
+            {{ loan.status }}
+          </span>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+</div> -->
+
+<!-- <div class="container">
+
+  <h2>📄 My Loan Applications</h2>
+
+  <table border="1">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+   <tbody>
+      <tr *ngFor="let loan of loans">
+
+        <td style="border:1px solid black;">
+          {{ loan.id }}
+        </td>
+
+        <td style="border:1px solid black;">
+          ₹ {{ loan.amount }}
+        </td>
+
+        <td style="border:1px solid black;">
+          {{ loan.status }}
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div> -->
+
+
+<!-- 
+<h1 style="color:red;">LOAN COMPONENT ACTIVE</h1>
+
+<div *ngFor="let loan of loans">
+  {{ loan.id }} - {{ loan.amount }} - {{ loan.status }}
+</div> -->
+
+<div class="container">
+
+  <h2>📄 My Loan Applications</h2>
+
+  <table class="loan-table">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let loan of loans">
+        <td>{{ loan.id }}</td>
+        <td>₹ {{ loan.amount }}</td>
+        <td>{{ loan.status }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>
