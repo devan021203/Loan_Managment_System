@@ -2,12 +2,14 @@
 
   <h2>Apply Loan</h2>
 
-  <LAbel>USER ID</LAbel>
-  <input type="text" placeholder="User ID" [(ngModel)]="loan.userId">
+  <Label>USER NAME</Label>
+  <input type="text" placeholder="user Name" [(ngModel)]="loan.user_name">
   <br>
-  <Label>AMOUNT</Label>
+  <Label>CITY</Label>
+  <input type="text" placeholder="city" [(ngModel)]="loan.city">
+  <br>
+   <Label>AMOUNT</Label>
   <input type="text" placeholder="Amount" [(ngModel)]="loan.amount">
-
   <br>
   <button (click)="apply()">Submit</button>
 

@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navbar" *ngIf="!isAdmin()" >
 
   <div class="logo">
     🏦 Bank System
@@ -8,7 +8,7 @@
 
     <li>
       <a routerLink="/dashboard" routerLinkActive="active">
-        Dashboard
+        Home
       </a>
     </li>
 
@@ -24,7 +24,7 @@
       </a>
     </li>
 
-    <li>
+    <li *ngIf="isAdmin()">
       <a routerLink="/admin" routerLinkActive="active">
         Admin
       </a>

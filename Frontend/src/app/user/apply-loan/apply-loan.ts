@@ -14,9 +14,10 @@ export class ApplyLoan {
 
   // ✅ bind form values here
   loan = {
-    userId: 0,
-    amount: 0,
-    status: 'Pending'
+    user_name:"" ,
+    amount:"0",
+    city:"",
+    status: 'PENDING'
   };
 
   constructor(
@@ -26,7 +27,6 @@ export class ApplyLoan {
   
 
  apply() {
-  this.loan.userId = Number(localStorage.getItem('userId'));
 
   this.loanService.applyLoan(this.loan).subscribe({
     next: () => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoanService } from '../../core/services/loan.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { LoanService } from '../../core/services/loan.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -10,74 +10,90 @@ import { Router } from '@angular/router';
   templateUrl: './admin.html',
   styleUrls: ['./admin.css']
 })
-export class AdminComponent implements OnInit {
+export class Admin implements OnInit {
 
   loans: any[] = [];
   filteredLoans: any[] = [];
 
+  // 🔥 NEW
+  users: any[] = [];
+
   constructor(
     private loanService: LoanService,
-    private router: Router
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
-    this.getLoans();
+  ngOnInit() {
+    this.loadLoans();
+    this.loadUsers(); // ✅ NEW
   }
 
-  // 🔹 Load loans
-  getLoans() {
+  // ================= LOANS =================
+
+  loadLoans() {
     this.loanService.getLoans().subscribe({
-      next: (res: any) => {
-        this.loans = res;
-        this.filteredLoans = res;
+      next: (data: any) => {
+        this.loans = data;
+        this.filteredLoans = data;
       },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to load loans');
-      }
+      error: (err) => console.log(err)
     });
   }
 
-  // 🔹 Approve
-  approve(loan: any) {
-    this.loanService.updateLoanStatus(loan.id, { status: 'Approved' })
-      .subscribe(() => this.getLoans());
-      console.log('Approve clicked', loan); // 👈 must print
-
-  }
-
-  // 🔹 Reject
-  reject(loan: any) {
-    this.loanService.updateLoanStatus(loan.id, { status: 'Rejected' })
-      .subscribe(() => this.getLoans());
-  }
-
-  // 🔹 Filter
-  filter(status: string) {
-    if (status === 'All') {
-      this.filteredLoans = this.loans;
-    } else {
-      this.filteredLoans = this.loans.filter(l => l.status === status);
-    }
-  }
-
-  // 🔹 Logout
-  logout() {
-    localStorage.clear();
-    this.router.navigate(['/login']);
-  }
-
-  // 🔹 Counts
   get pendingCount() {
-    return this.loans.filter(l => l.status === 'Pending').length;
+    return this.loans.filter(l => l.status === 'PENDING').length;
   }
 
   get approvedCount() {
-    return this.loans.filter(l => l.status === 'Approved').length;
-    
+    return this.loans.filter(l => l.status === 'APPROVED').length;
   }
 
   get rejectedCount() {
-    return this.loans.filter(l => l.status === 'Rejected').length;
+    return this.loans.filter(l => l.status === 'REJECTED').length;
+  }
+
+  filter(type: string) {
+    if (type === 'All') {
+      this.filteredLoans = this.loans;
+    } else {
+      this.filteredLoans = this.loans.filter(
+        l => l.status === type.toUpperCase()
+      );
+    }
+  }
+
+  approve(loan: any) {
+    loan.status = 'APPROVED';
+  }
+
+  reject(loan: any) {
+    loan.status = 'REJECTED';
+  }
+
+  // ================= USERS =================
+
+  loadUsers() {
+    this.http.get('http://127.0.0.1:8000/api/loan/users/')
+      .subscribe({
+        next: (res: any) => {
+          this.users = res;
+        },
+        error: (err) => console.log(err)
+      });
+  }
+
+  get totalUsers() {
+    return this.users.length;
+  }
+
+  get activeUsers() {
+    return this.users.filter(u => u.is_active).length;
+  }
+
+  // ================= COMMON =================
+
+  logout() {
+    localStorage.clear();
+    window.location.href = '/login';
   }
 }

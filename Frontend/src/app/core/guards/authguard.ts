@@ -1,19 +1,12 @@
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
+ import { CanActivateFn } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
-  const router = inject(Router);
-  const role = localStorage.getItem('role');
+  const user = localStorage.getItem('user');
 
-  console.log('User role:', role);
-
-  if (role === 'admin') {
-    return true;
+  if (user) {
+    return true;   // allow access
+  } else {
+    return false;  // block access
   }
-
-  alert('Access Denied! Admin only');
-
-  router.navigate(['/login']); // redirect user
-  return false;
 };

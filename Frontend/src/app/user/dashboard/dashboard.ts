@@ -14,52 +14,69 @@ import { ChangeDetectorRef } from '@angular/core';
 export class Dashboard implements OnInit {
 
   loans: any[] = [];
+  username: string = '';
 
   constructor(
-  private router: Router,
-  private loanService: LoanService,
-  private cd: ChangeDetectorRef
-) {}
+    private router: Router,
+    private loanService: LoanService,
+    private cd: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {
-    this.loadLoans();
+ngOnInit(): void {
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  console.log("USER FROM STORAGE:", user);
+  console.log("USER ID:", user.id);
+
+  this.username = user.username || '';
+
+  this.loadLoans();
+}
+
+loadLoans() {
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userId = Number(user.id);
+
+  if (!userId) {
+    console.log('No user ID found');
+    return;
   }
 
-  loadLoans() { 
-    this.loanService.getLoans().subscribe({
-      next: (data: any) => {
-        console.log("LOANS FROM API:", data); // 🔥 check this
-         this.loans = [...data]; // 🔥 IMPORTANT FIX
-        this.cd.detectChanges(); // 🔥 FORCE UI refresh
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  }
+  this.loanService.getLoans(userId).subscribe({
+    next: (data: any) => {
+      this.loans = data;
+      this.cd.detectChanges(); // optional but safe
+    },
+    error: (err) => console.log(err)
+  });
+}
 
   goToApplyLoan() {
     this.router.navigate(['/apply-loan']);
   }
 
- deleteLoan(id: number) {
-  this.loanService.deleteLoan(id).subscribe({
-    next: (res) => {
-      console.log("Deleted:", res);
-      this.loadLoans(); // refresh list after delete
-    },
-    error: (err) => {
-      console.log("Delete error:", err);
-    }
-  });
-} 
+  deleteLoan(id: number) {
+    this.loanService.deleteLoan(id).subscribe({
+      next: () => this.loadLoans(),
+      error: (err) => console.log(err)
+    });
+  }
 
-get pendingCount(): number {
-  return this.loans?.filter(l => l.status === 'Pending').length || 0;
+  get pendingCount(): number {
+    return this.loans?.filter(l => l.status === 'PENDING').length || 0;
+  }
+
+  get approvedCount(): number {
+    return this.loans?.filter(l => l.status === 'APPROVED').length || 0;
+  }
+
+  logout() {
+  localStorage.removeItem('user');   // clear user session
+  localStorage.removeItem('token');  // if using JWT
+
+  this.router.navigate(['/login']);   // redirect to login
+}
 }
 
-get approvedCount(): number {
-  return this.loans?.filter(l => l.status === 'Approved').length || 0;
-}
-
-}

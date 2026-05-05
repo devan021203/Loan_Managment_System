@@ -1,0 +1,40 @@
+<div class="login-container">
+
+  <h2>Login</h2>
+
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+
+    <!-- Email -->
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="user.email"
+      placeholder="Email / Username"
+      required
+    />
+
+    <!-- Password -->
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="user.password"
+      placeholder="Password"
+      required
+    />
+
+    <!-- Error message -->
+    <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <!-- Button -->
+    <button type="submit" [disabled]="!loginForm.form.valid || loading">
+      {{ loading ? 'Logging in...' : 'Login' }}
+    </button>
+
+  </form>
+
+  <p>
+  New user?
+  <button type="button" (click)="goRegister()">Create Account</button>
+</p>
+
+</div>

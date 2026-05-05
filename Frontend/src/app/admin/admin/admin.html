@@ -6,7 +6,66 @@
     <button class="logout" (click)="logout()">Logout</button>
   </div>
 
-  <!-- STATS -->
+  <!-- ================= USERS ================= -->
+
+  <h2>👥 User Overview</h2>
+
+  <div class="cards">
+    <div class="card blue">
+      Total Users: {{ totalUsers }}
+    </div>
+
+    <div class="card green">
+      Active Users: {{ activeUsers }}
+    </div>
+  </div>
+
+  <!-- USER TABLE -->
+  <h2>User List</h2>
+
+  <table *ngIf="users.length > 0; else noUsers">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Last Login</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of users">
+
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+
+        <td>
+          <span [ngClass]="user.is_active ? 'active' : 'inactive'">
+            {{ user.is_active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+
+        <td>
+          {{ user.last_login ? (user.last_login | date:'short') : 'Never' }}
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+  <ng-template #noUsers>
+    <p>No users found</p>
+  </ng-template>
+
+
+  <!-- ================= LOANS ================= -->
+
+  <h2>🏦 Loan Overview</h2>
+
   <div class="cards">
     <div class="card total">Total: {{ loans.length }}</div>
     <div class="card pending">Pending: {{ pendingCount }}</div>
@@ -22,13 +81,14 @@
     <button (click)="filter('Rejected')">Rejected</button>
   </div>
 
-  <!-- TABLE -->
+  <!-- LOAN TABLE -->
   <table *ngIf="filteredLoans.length > 0; else noData">
 
     <thead>
       <tr>
         <th>ID</th>
-        <th>User ID</th>
+        <th>User Name</th>
+        <th>City</th>
         <th>Amount</th>
         <th>Status</th>
         <th>Action</th>
@@ -39,11 +99,12 @@
       <tr *ngFor="let loan of filteredLoans">
 
         <td>{{ loan.id }}</td>
-        <td>{{ loan.userId }}</td>
+        <td>{{ loan.user_name }}</td>
+        <td>{{ loan.city }}</td>
         <td>₹ {{ loan.amount }}</td>
 
         <td>
-          <span class="status" [ngClass]="loan.status.toLowerCase()">
+          <span [ngClass]="loan.status.toLowerCase()">
             {{ loan.status }}
           </span>
         </td>
@@ -58,7 +119,6 @@
 
   </table>
 
-  <!-- EMPTY -->
   <ng-template #noData>
     <p class="empty">No loan applications found</p>
   </ng-template>

@@ -1,14 +1,27 @@
 <div class="dashboard">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div>
-      <h1>🏦 Loan Dashboard</h1>
+  <!-- TOP HEADER -->
+  <div class="top-header">
+
+    <div class="title">
+      <h1>🏦 User Profile</h1>
     </div>
 
-    <button class="btn-primary" (click)="goToApplyLoan()">
-      + Apply Loan
-    </button>
+    <div class="actions">
+      <div class="profile-card">
+        <h3></h3>
+        <p><strong>Username:</strong> {{ username }}</p>
+      </div>
+
+      <button class="btn-primary" (click)="goToApplyLoan()">
+        + Apply Loan
+      </button>
+
+       <button class="btn-logout" (click)="logout()">
+        Logout
+      </button>
+    </div>
+
   </div>
 
   <!-- STATS -->
@@ -19,12 +32,12 @@
       <p>{{ loans.length }}</p>
     </div>
 
-    <div class="card">
+    <div class="card pending">
       <h3>Pending</h3>
       <p>{{ pendingCount }}</p>
     </div>
 
-    <div class="card">
+    <div class="card approved">
       <h3>Approved</h3>
       <p>{{ approvedCount }}</p>
     </div>
@@ -40,10 +53,10 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>User ID</th>
+          <!-- <th>Name</th> -->
+          <th>City</th>
           <th>Amount</th>
           <th>Status</th>
-          <th>Action</th>
         </tr>
       </thead>
 
@@ -51,17 +64,14 @@
         @for (loan of loans; track loan.id) {
           <tr>
             <td>{{ loan.id }}</td>
-            <td>{{ loan.userId }}</td>
+            <!-- <td>{{ loan.user_loan_id }}</td>    -->
+            <td>{{ loan.city }}</td>
             <td>₹ {{ loan.amount }}</td>
+
             <td>
-              <span class="badge" [ngClass]="loan.status">
-                {{ loan.status || 'Pending' }}
+              <span class="badge" [ngClass]="loan.status.toLowerCase()">
+                {{ loan.status }}
               </span>
-            </td>
-            <td>
-              <button class="btn-delete" (click)="deleteLoan(loan.id)">
-                Delete
-              </button>
             </td>
           </tr>
         }
@@ -70,4 +80,5 @@
     </table>
 
   </div>
+
 </div>
