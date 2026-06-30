@@ -1,4 +1,4 @@
-# Bank_Managment_System
+# Loan_Managment_System
 
 📖 Description
 
